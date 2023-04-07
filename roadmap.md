@@ -6,6 +6,15 @@ Answer file would contain `der Apfel, the Apple` for example. Maybe as CSV. This
 
 Then it should keep track of when you answered correctly and when you answered incorrectly, asking the user more frequently about ones that were incorrect rarly but still required to ask the correct ones again. 
 
+## Steps overview
+
+1. Get the information
+2. Store inforamtion
+3. Display information
+4. Basic gameplay
+5. Points? 
+6. Web or Desktop App?
+
 # Step one: Getting word info.  
 
 Lets use go to call an API. https://en.wiktionary.org/w/api.php has the information we need. We can scrape the word and store word + ARTICLE. 
@@ -47,3 +56,14 @@ apple
 f
 ```
 I have stuck with this approach because the amount of information available for extracting will probably grow and scraping wiktionary is pretty useful at this point.
+
+
+The extractor is kind of working as well as expected at this point, I am retreiving the article and the translation. So we can now focus on getting the next steps. 
+
+# Step 2 Data persistance
+
+As I want to keep the data and score it I need to persist the data. I could store it on an ever growing CSV file, but given we are manipulatign the data or at least plan to in the future, I am going to choose a Database. 
+
+I spent some time looking at how many other applications get away with this and Sqllite popped up again and agian. It appears to use standard SQL syntax meaning that we should be able to easily transition to other DB's if needed. However as it so goes we will start with SQLLITE as a docker container. `docker run --rm -it --name sql --network test -v "$(pwd):/workspace" -w /workspace keinos/sqlite3` Gets it up for testing purposes. 
+
+I have dumped the DB so no we should be able to use .open ./ger_dict.db to perist the data if the container dies. Saves us getting these words

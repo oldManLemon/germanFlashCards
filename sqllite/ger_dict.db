@@ -1,0 +1,6 @@
+PRAGMA foreign_keys=OFF;
+BEGIN TRANSACTION;
+CREATE TABLE ger_dict (id INTERGER PRIMARY KEY, ger_article TEXT NOT NULL, ger_word TEXT NOT NULL UNIQUE, eng_word TEXT NOT NULL);
+INSERT INTO ger_dict VALUES(NULL,'m','Tisch','table');
+INSERT INTO ger_dict VALUES(NULL,'f','Tür','door');
+COMMIT;

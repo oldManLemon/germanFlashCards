@@ -9,6 +9,12 @@ import (
 	"github.com/PuerkitoBio/goquery"
 )
 
+type Card struct {
+	article     string
+	wordGerman  string
+	wordEnglish string
+}
+
 func extractor(word string) (string, string) {
 	/*
 		Accepts only one argument to rerieve the word.
@@ -50,18 +56,24 @@ func extractor(word string) (string, string) {
 	gender := em.Text()
 
 	// Print the grammatical gender
-	fmt.Println(gender)
-	fmt.Println(eng)
+	// fmt.Println(gender)
+	// fmt.Println(eng)
 	return gender, eng
+}
+func NewCard(word string) Card {
+	gender, eng := extractor(word)
+	return Card{wordGerman: word, wordEnglish: eng, article: gender}
 }
 
 func main() {
-	extractor("Tisch")
-	extractor("Tür")
-	extractor("Vogel")
-	extractor("Baum")
-	extractor("bier")
-	extractor("banane")
-	extractor("leben")
-	extractor("laufen")
+
+	fmt.Println(NewCard("Tisch"))
+	fmt.Println(NewCard("Tür"))
+	fmt.Println(NewCard("Vogel"))
+	fmt.Println(NewCard("Baum"))
+	fmt.Println(NewCard("bier"))
+	fmt.Println(NewCard("banane"))
+	fmt.Println(NewCard("leben"))
+	fmt.Println(NewCard("laufen"))
+	fmt.Println(NewCard("Pferd"))
 }
