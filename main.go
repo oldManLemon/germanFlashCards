@@ -4,13 +4,22 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"strings"
 
 	"github.com/PuerkitoBio/goquery"
 )
 
-func getGender(word string) string {
+func extractor(word string) (string, string) {
+	/*
+		Accepts only one argument to rerieve the word.
+		Information will then be return, currently the Gender will be returned as either m,f,n and the second return will be the english translation of the word.
 
-	url := fmt.Sprintf("https://de.wiktionary.org/wiki/%s", word)
+	*/
+
+	//Capitalize First letter is needed
+	title := strings.Title(word)
+
+	url := fmt.Sprintf("https://de.wiktionary.org/wiki/%s", title)
 	// Make HTTP GET request to the Wiktionary page
 
 	resp, err := http.Get(url)
@@ -27,22 +36,32 @@ func getGender(word string) string {
 
 	// Find the first <em> tag with a "title" attribute containing the word "Genus"
 	em := doc.Find("em[title*=Genus]").First()
+	if (em.Text()) == "" {
+		fmt.Println("It was empty")
+	}
+
+	//Get English translation
+	span := doc.Find("span[lang*=en]").First()
+	eng := span.Find("a").Text()
+
+	// <span lang="en"><a href="/wiki/table#table_(Englisch)" title="table">table</a></span>
 
 	// Extract the grammatical gender text from the <em> tag
 	gender := em.Text()
 
 	// Print the grammatical gender
 	fmt.Println(gender)
-	return gender
-
+	fmt.Println(eng)
+	return gender, eng
 }
 
 func main() {
-	getGender("Tisch")
-	getGender("Tür")
-	getGender("Vogel")
-	getGender("Baum")
-	getGender("Apfel")
-	getGender("banane")
-
+	extractor("Tisch")
+	extractor("Tür")
+	extractor("Vogel")
+	extractor("Baum")
+	extractor("bier")
+	extractor("banane")
+	extractor("leben")
+	extractor("laufen")
 }
