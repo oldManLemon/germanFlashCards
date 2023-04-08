@@ -1,12 +1,14 @@
 package main
 
 import (
+	"database/sql"
 	"fmt"
 	"log"
 	"net/http"
 	"strings"
 
 	"github.com/PuerkitoBio/goquery"
+	_ "github.com/mattn/go-sqlite3"
 )
 
 type Card struct {
@@ -65,15 +67,44 @@ func NewCard(word string) Card {
 	return Card{wordGerman: word, wordEnglish: eng, article: gender}
 }
 
+// DB Stuff
+
+func sqlite(c Card) {
+	// Open Sqlite Database file
+	db, err := sql.Open("sqlite3", "sqlite/ger_dict.db")
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer db.Close()
+	// // Create a new table to store data
+	// _, err = db.Exec("CREATE TABLE ger_dict (id INTERGER PRIMARY KEY, ger_article TEXT NOT NULL, ger_word TEXT NOT NULL UNIQUE, eng_word TEXT NOT NULL);")
+	// if err != nil {
+	// 	log.Fatal(err)
+	// }
+	//Prepare the statement
+	statement, err := db.Prepare("INSERT INTO ger_dict (ger_article, ger_word, eng_word) VALUES (?, ?, ?);")
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer statement.Close()
+	_, err = statement.Exec(c.article, c.wordGerman, c.wordEnglish)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+}
+
 func main() {
 
-	fmt.Println(NewCard("Tisch"))
-	fmt.Println(NewCard("Tür"))
-	fmt.Println(NewCard("Vogel"))
-	fmt.Println(NewCard("Baum"))
-	fmt.Println(NewCard("bier"))
-	fmt.Println(NewCard("banane"))
-	fmt.Println(NewCard("leben"))
-	fmt.Println(NewCard("laufen"))
-	fmt.Println(NewCard("Pferd"))
+	// fmt.Println(NewCard("Tisch"))
+	// fmt.Println(NewCard("Tür"))
+	test := NewCard("Tisch")
+	fmt.Println(test)
+	sqlite(test)
+	// fmt.Println(NewCard("Baum"))
+	// fmt.Println(NewCard("bier"))
+	// fmt.Println(NewCard("banane"))
+	// fmt.Println(NewCard("leben"))
+	// fmt.Println(NewCard("laufen"))
+	// fmt.Println(NewCard("Pferd"))
 }

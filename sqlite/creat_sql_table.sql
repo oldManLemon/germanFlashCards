@@ -20,3 +20,5 @@ select rowid, ger_word from ger_dict;
 sqlite> .output ger_dict.db
 sqlite> .dump ger_dict
 
+-- When new DB needs to start 
+.read ger_dict.db
