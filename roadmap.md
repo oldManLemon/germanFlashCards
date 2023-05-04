@@ -89,3 +89,16 @@ See DB below.
 |m|Hund|dog | 5 | 0
 
 ```
+
+# Step 4 Seperation
+
+We have now implemented some basic elements. 
+
+I would now like to seperate out aspects of the program. So far we have focused solely on adding new words. This is great but now we need to seperate that into more functions. I am going to start with 4
+
+1. Add new word function
+2. Pull Set of words for game
+3. Edit words
+4. Delete words?
+
+With these functions taken care of I a think we can then build out the rest of the game? 
