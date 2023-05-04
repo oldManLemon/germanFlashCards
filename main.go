@@ -4,8 +4,8 @@ import (
 	"fmt"
 
 	_ "github.com/mattn/go-sqlite3"
-	// "github.com/oldManLemon/germanFlashCards/sqlutils"
 	"github.com/oldManLemon/germanFlashCards/extractor"
+	"github.com/oldManLemon/germanFlashCards/sqlutils"
 	"github.com/oldManLemon/germanFlashCards/structs"
 )
 
@@ -21,7 +21,8 @@ func NewCard(word string) structs.Card {
 
 func main() {
 
-	test := NewCard("Schrank")
+	test := NewCard("Tempo")
 	fmt.Println(test)
 	// sqlite_insert_data(test)
+	sqlutils.Insert_data(test)
 }

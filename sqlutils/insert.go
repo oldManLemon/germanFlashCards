@@ -4,13 +4,11 @@ import (
 	"database/sql"
 	"fmt"
 	"log"
+
+	"github.com/oldManLemon/germanFlashCards/structs"
 )
 
-type Card struct {
-	article     string
-	wordGerman  string
-	wordEnglish string
-}
+type Card = structs.Card
 
 func Insert_data(c Card) {
 	// Open Sqlite Database file
@@ -29,11 +27,13 @@ func Insert_data(c Card) {
 	if err != nil {
 		// log.Fatal(err)
 		fmt.Println(err)
-	}
-	defer statement.Close()
-	_, err = statement.Exec(c.article, c.wordGerman, c.wordEnglish)
-	if err != nil {
-		log.Fatal(err)
+	} else {
+		defer statement.Close()
+		_, err = statement.Exec(c.Article, c.WordGerman, c.WordEnglish)
+		if err != nil {
+			log.Fatal(err)
+		}
+
 	}
 
 }
