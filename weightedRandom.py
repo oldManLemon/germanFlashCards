@@ -1,7 +1,7 @@
 import random
 
 # Define the words and their initial weights
-words = {'tisch': 5, 'bier': 5, 'vogel': 5, 'baum': 5}
+words = {'tisch': 10, 'bier': 5, 'vogel': 5, 'baum': 2}
 
 # Function to choose a word with weighted randomness
 def choose_word():
