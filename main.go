@@ -5,24 +5,24 @@ import (
 
 	_ "github.com/mattn/go-sqlite3"
 	"github.com/oldManLemon/germanFlashCards/extractor"
-	"github.com/oldManLemon/germanFlashCards/sqlutils"
-	"github.com/oldManLemon/germanFlashCards/structs"
 )
 
-func NewCard(word string) structs.Card {
-	gender, eng := extractor.Extractor(word)
-	card := structs.Card{
-		WordGerman:  word,
-		WordEnglish: eng,
-		Article:     gender,
-	}
-	return card
-}
+// func NewCard(word string) structs.Card {
+// 	gender, eng := extractor.Extractor(word)
+// 	card := structs.Card{
+// 		WordGerman:  word,
+// 		WordEnglish: eng,
+// 		Article:     gender,
+// 	}
+// 	return card
+// }
 
 func main() {
 
-	test := NewCard("Tempo")
-	fmt.Println(test)
-	// sqlite_insert_data(test)
-	sqlutils.Insert_data(test)
+	bool1, str1, str2 := extractor.Extractor("skdjfhsdf")
+	fmt.Println(bool1)
+	fmt.Println(str1)
+	fmt.Println(str2)
+	// functions.New_word("skdjfhsdf")
+	// functions.New_word("")
 }
