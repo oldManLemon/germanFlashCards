@@ -20,9 +20,9 @@ import (
 func main() {
 
 	bool1, str1, str2 := extractor.Extractor("skdjfhsdf")
+
 	fmt.Println(bool1)
 	fmt.Println(str1)
 	fmt.Println(str2)
-	// functions.New_word("skdjfhsdf")
-	// functions.New_word("")
+
 }

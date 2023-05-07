@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"strings"
+	"time"
 
 	"github.com/PuerkitoBio/goquery"
 )
@@ -20,12 +21,21 @@ func Extractor(word string) (bool, string, string) {
 	title := strings.Title(word)
 
 	url := fmt.Sprintf("https://de.wiktionary.org/wiki/%s", title)
+	// fmt.Println(url)
 	// Make HTTP GET request to the Wiktionary page
+	client := http.Client{
+		Timeout: 3 * time.Second,
+	}
 
-	resp, err := http.Get(url)
-	if resp.StatusCode != 200 {
+	resp, err := client.Get(url)
+
+	if err != nil {
+
 		//Die here straight away if word not found
-		fmt.Println(resp.StatusCode)
+		// fmt.Println(err)
+		//TODO PUT THIS IN LOG!
+		// fmt.Println(err.Error())
+		//TODO PUT THIS IN LOG! ^^
 		return false, "", ""
 	}
 	if err != nil {

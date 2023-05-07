@@ -33,7 +33,9 @@ func New_word(word string) string {
 		new, err := newCard(word)
 		//Handle error again
 		if err != nil {
-			fmt.Println(err)
+			msg := fmt.Sprintf("%v", err.Error())
+			// fmt.Println(err)
+			return msg
 		} else {
 			fmt.Println(word)
 			// sqlite_insert_data(test)
