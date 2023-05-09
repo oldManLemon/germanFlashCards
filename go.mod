@@ -3,6 +3,7 @@ module github.com/oldManLemon/germanFlashCards
 go 1.20
 
 require (
+	github.com/DATA-DOG/go-sqlmock v1.5.0 // indirect
 	github.com/PuerkitoBio/goquery v1.8.1 // indirect
 	github.com/andybalholm/cascadia v1.3.1 // indirect
 	github.com/mattn/go-sqlite3 v1.14.16 // indirect

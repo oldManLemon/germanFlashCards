@@ -47,5 +47,5 @@ func New_word(word string) string {
 		msg := fmt.Sprintf("%v already exists in collection\n", word)
 		return msg
 	}
-	return ""
+	// return ""
 }
