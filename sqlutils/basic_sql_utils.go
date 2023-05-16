@@ -24,22 +24,12 @@ func init() {
 	var err error
 	db, err = sql.Open("sqlite3", dbPath)
 	if err != nil {
+		println(err)
 		log.Fatal(err)
 	}
 }
 
 func Insert_data(c Card) {
-	// // Open Sqlite Database file
-	// db, err := sql.Open("sqlite3", "sqlite/ger_dict.db")
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
-	// defer db.Close()
-	// // Create a new table to store data
-	// _, err = db.Exec("CREATE TABLE ger_dict (id INTERGER PRIMARY KEY, ger_article TEXT NOT NULL, ger_word TEXT NOT NULL UNIQUE, eng_word TEXT NOT NULL);")
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
 	//Prepare the statement
 	statement, err := db.Prepare("INSERT INTO ger_dict (ger_article, ger_word, eng_word) VALUES (?, ?, ?);")
 	if err != nil {
@@ -56,26 +46,48 @@ func Insert_data(c Card) {
 
 }
 
-func Delete_data(gerWord string) {
-	// // Open Sqlite Database file
-	// db, err := sql.Open("sqlite3", "sqlite/ger_dict.db")
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
-	// defer db.Close()
+func Delete_data(c Card) bool {
+	//I am returning a straigt bool. I will capture logs later, I will not return an error here
+	//so we are just return true for success and false for failure.
 
 	// Prepare the statement
-	statement, err := db.Prepare("DELETE FROM ger_dict WHERE ger_word = ?")
+	statement, err := db.Prepare("DELETE FROM ger_dict WHERE ger_word = ?;")
 	if err != nil {
 		log.Fatal(err)
+		return false
 	}
 	defer statement.Close()
 
-	// Execute the statement
-	_, err = statement.Exec(gerWord)
+	_, err = statement.Query(c.WordGerman)
 	if err != nil {
 		log.Fatal(err)
+		return false
 	}
+	// Log the query
+	// log.Println(statement)
+
+	// add the following to delete all words with the given German word
+	_, err = statement.Exec(c.WordGerman)
+	if err != nil {
+		fmt.Println("Error occured executing the staement: ", err.Error())
+		log.Fatal(err)
+		return false
+	}
+	// Convert the word to a string to make check_word happy and preform a sanity check
+	word_convert := c.WordGerman
+	sanity, err := Check_word(word_convert)
+	if err != nil {
+		fmt.Println("Error")
+		log.Fatal(err)
+		return false
+	}
+	if sanity {
+		fmt.Println("Word in the list damnit ")
+		return false
+
+	}
+	return true
+
 }
 
 func Check_word(word string) (bool, error) {
@@ -92,10 +104,13 @@ func Check_word(word string) (bool, error) {
 	var gerWord string //for the db
 	err = statement.QueryRow(word).Scan(&gerWord)
 	if err == sql.ErrNoRows {
+		//TODO LOG IT
+		// fmt.Println("Here no word found")
 		return false, nil //no word found
 	} else if err != nil {
 		return false, err //something else has gone wrong
 	}
+	fmt.Println("found word yay!")
 	return true, nil //word found
 
 }

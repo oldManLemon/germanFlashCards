@@ -4,7 +4,8 @@ import (
 	"fmt"
 
 	_ "github.com/mattn/go-sqlite3"
-	"github.com/oldManLemon/germanFlashCards/extractor"
+	"github.com/oldManLemon/germanFlashCards/sqlutils"
+	"github.com/oldManLemon/germanFlashCards/structs"
 )
 
 // func NewCard(word string) structs.Card {
@@ -19,10 +20,8 @@ import (
 
 func main() {
 
-	bool1, str1, str2 := extractor.Extractor("skdjfhsdf")
-
-	fmt.Println(bool1)
-	fmt.Println(str1)
-	fmt.Println(str2)
+	c := structs.Card{Article: "die", WordGerman: "Tempo", WordEnglish: "Police5"}
+	d := sqlutils.Delete_data(c)
+	fmt.Println(d)
 
 }
