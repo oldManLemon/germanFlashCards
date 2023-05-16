@@ -1,4 +1,4 @@
-package functions
+package zlogs
 
 import (
 	"log"

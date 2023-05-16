@@ -6,6 +6,7 @@ import (
 	"log"
 
 	"github.com/oldManLemon/germanFlashCards/structs"
+	"github.com/oldManLemon/germanFlashCards/zlogs"
 )
 
 type Card = structs.Card
@@ -30,36 +31,44 @@ func init() {
 }
 
 func Insert_data(c Card) {
+	logger := zlogs.SetupLogger()
 	//Prepare the statement
 	statement, err := db.Prepare("INSERT INTO ger_dict (ger_article, ger_word, eng_word) VALUES (?, ?, ?);")
 	if err != nil {
 		// log.Fatal(err)
-		fmt.Println(err)
+		logger.Error().Msg("Can not prepare statement: ", err)
+		// fmt.Println(err)
 	} else {
 		defer statement.Close()
 		_, err = statement.Exec(c.Article, c.WordGerman, c.WordEnglish)
 		if err != nil {
-			log.Fatal(err)
+			logger.Fatal().Msg("Can not executre statement. No word has being added see err: ", err)
+			// log.Fatal(err)
 		}
 
 	}
+	logger.Info().Msg("Data ", c, " has being inserted")
 
 }
 
 func Delete_data(c Card) bool {
+	logger := zlogs.SetupLogger()
+	logger.Info().Msg("Initiate delete of ", c)
 	//I am returning a straigt bool. I will capture logs later, I will not return an error here
 	//so we are just return true for success and false for failure.
 
 	// Prepare the statement
 	statement, err := db.Prepare("DELETE FROM ger_dict WHERE ger_word = ?;")
 	if err != nil {
-		log.Fatal(err)
+		logger.Error().Msg("Can not prepare statement: ", err)
+		// log.Fatal(err)
 		return false
 	}
 	defer statement.Close()
 
 	_, err = statement.Query(c.WordGerman)
 	if err != nil {
+		logger.Error().Msg("Can not prepare statement: ", err)
 		log.Fatal(err)
 		return false
 	}
@@ -77,15 +86,17 @@ func Delete_data(c Card) bool {
 	word_convert := c.WordGerman
 	sanity, err := Check_word(word_convert)
 	if err != nil {
-		fmt.Println("Error")
+		logger.Error().Msg("Check_word failed to call from Delete_date()", err)
+		// fmt.Println("Error")
 		log.Fatal(err)
 		return false
 	}
 	if sanity {
-		fmt.Println("Word in the list damnit ")
-		return false
+		logger.Error().Msg("Was unable to complete request to delete ", c.WordGerman, " from Database. Word was still discovered in the list")
+		return false //Do I just go again
 
 	}
+	logger.Info().Msg("Word ", c.WordGerman, "was successfully removed from the Database")
 	return true
 
 }
