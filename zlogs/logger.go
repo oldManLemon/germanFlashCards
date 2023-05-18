@@ -47,7 +47,7 @@ func SetupLogger() zerolog.Logger {
 	multiWriter := zerolog.MultiLevelWriter(consoleWriter, file)
 
 	logger := zerolog.New(multiWriter).
-		Level(zerolog.TraceLevel).
+		Level(zerolog.TraceLevel). //! Here Change the level!
 		With().
 		Timestamp().
 		Caller().
