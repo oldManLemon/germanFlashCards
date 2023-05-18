@@ -31,6 +31,7 @@ func init() {
 
 func Insert_data(c Card) {
 	logger := zlogs.SetupLogger()
+	logger.Debug().Str("germanWord", c.WordGerman).Msg("Insert_data initiated")
 	//Prepare the statement
 	statement, err := db.Prepare("INSERT INTO ger_dict (ger_article, ger_word, eng_word) VALUES (?, ?, ?);")
 	if err != nil {
@@ -53,7 +54,7 @@ func Insert_data(c Card) {
 
 func Delete_data(c Card) bool {
 	logger := zlogs.SetupLogger()
-	logger.Info().Str("germanWord", c.WordGerman).Msg("Initiate delete")
+	logger.Debug().Str("germanWord", c.WordGerman).Msg("Initiate delete")
 	//I am returning a straigt bool. I will capture logs later, I will not return an error here
 	//so we are just return true for success and false for failure.
 
@@ -102,7 +103,7 @@ func Delete_data(c Card) bool {
 
 func Check_word(word string) (bool, error) {
 	logger := zlogs.SetupLogger()
-	logger.Info().Str("germanWord", word).Msg("initiating check_word function")
+	logger.Debug().Str("germanWord", word).Msg("initiating check_word function")
 
 	// Prepare the statement
 	statement, err := db.Prepare("SELECT ger_word FROM ger_dict WHERE ger_word = ?;")
