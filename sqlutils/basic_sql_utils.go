@@ -117,7 +117,7 @@ func Check_word(word string) (bool, error) {
 	err = statement.QueryRow(word).Scan(&gerWord)
 	if err == sql.ErrNoRows {
 		//TODO LOG IT
-		logger.Error().Err(err).Msg("Word was not found")
+		logger.Warn().Err(err).Msg("Word was not found")
 		return false, nil //no word found
 	} else if err != nil {
 		logger.Error().Err(err).Msg("Query Error occured")
