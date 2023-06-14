@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	_ "github.com/mattn/go-sqlite3"
-	"github.com/oldManLemon/germanFlashCards/functions"
+	"github.com/oldManLemon/germanFlashCards/sqlutils"
 )
 
 func main() {
@@ -26,6 +26,8 @@ func main() {
 	// fmt.Println(b)
 	// fmt.Println(w1)
 	// fmt.Println(w2)
-	b := functions.New_word("papier")
-	fmt.Println(b)
+	// b := functions.New_word("papier")
+	// fmt.Println(b)
+	x, _ := sqlutils.Get_all_words()
+	fmt.Println(x)
 }

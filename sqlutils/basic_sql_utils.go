@@ -127,3 +127,37 @@ func Check_word(word string) (bool, error) {
 	return true, nil //word found
 
 }
+
+func Get_all_words() (map[string]float64, error) {
+	//Get all scores for the randomiser.
+	logger := zlogs.SetupLogger()
+	logger.Debug().Msg("Initiated get all words")
+
+	rows, err := db.Query("SELECT ger_word, score FROM ger_dict")
+	if err != nil {
+		logger.Error().Err(err).Msg("Query Error occured")
+		return nil, err
+	}
+	defer rows.Close()
+	words_and_scores := make(map[string]float64)
+	for rows.Next() {
+		var word string
+		var score sql.NullFloat64
+		err := rows.Scan(&word, &score)
+		if err != nil {
+			log.Fatal(err)
+		}
+		if score.Valid {
+			words_and_scores[word] = score.Float64
+		} else {
+			words_and_scores[word] = 50.0 // Set score to 50 if null
+		}
+	}
+	err = rows.Err()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	return words_and_scores, nil
+
+}

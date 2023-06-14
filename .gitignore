@@ -1,3 +1,4 @@
 # stop uploading the db. 
 sqlite\ger_dict.db
-*db
+*.db
+
