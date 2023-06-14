@@ -3,3 +3,7 @@ sqlite\ger_dict.db
 *.db*
 
 
+sqlite/ger_dict.db
+# Random 
+log.log
+readme.txt
