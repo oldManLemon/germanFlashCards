@@ -1,14 +1,12 @@
 package functions
 
-import "github.com/oldManLemon/germanFlashCards/structs"
-
 // Goal here is to return a card.
-func Get_word() structs.Card {
+// func Get_word() structs.Card {
 
-	//TODO Do something
-	return structs.Card
+// 	//TODO Do something
+// 	return structs.Card
 
-}
+// }
 
 // // Goal here is to return a card.
 // func Get_all_words() {
